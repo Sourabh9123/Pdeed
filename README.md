@@ -52,13 +52,15 @@ Once the container is running, the API will be available at `http://localhost:80
 #### Example Request
 
 ```bash
+# Create a sample document
+echo "Google is headquartered in Mountain View, California, and was founded by Larry Page and Sergey Brin." > sample.txt
+
+# Upload the document
 curl -X 'POST' \
   'http://localhost:8000/api/v1/documents/analyze' \
   -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "text": "Google is headquartered in Mountain View, California, and was founded by Larry Page and Sergey Brin."
-}'
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@sample.txt'
 ```
 
 #### Example Response
