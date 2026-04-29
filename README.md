@@ -1,16 +1,17 @@
 # Document Intelligence Platform
 
-A focused, real-world backend service designed for document intelligence, built as a technical interview task. This platform provides an API to process actual document files (.txt, .pdf) and uses an LLM (OpenAI) to extract a precise summary and key entities.
+A focused, real-world backend service designed for document intelligence, built as a technical interview task. This platform provides an API to process actual document files (.txt, .pdf, .doc, .docx) and uses an LLM (OpenAI) to extract a precise summary and key entities.
 
 ## Tech Stack
 - **Python 3.11**
 - **FastAPI**
 - **OpenAI (gpt-3.5-turbo)**
-- **PyPDF** (Document parsing)
+- **PyPDF** & **python-docx** (Document parsing)
+- **antiword** (Legacy .doc extraction)
 - **Docker & Docker Compose**
 
 ## Features
-- **File Upload Parsing**: The `/api/v1/documents/analyze` endpoint seamlessly accepts `.txt` and `.pdf` file uploads using `multipart/form-data`.
+- **File Upload Parsing**: The `/api/v1/documents/analyze` endpoint seamlessly accepts `.txt`, `.pdf`, `.docx`, and `.doc` file uploads using `multipart/form-data`.
 - **OCR Readiness**: The architecture is built with scale in mind. Placeholders and comments are securely prepared in the parser layer to swap in robust binaries like `xpdf` (`pdftotext`) for high-speed PDF extraction, and Tesseract for Image OCR.
 - **Structured Data Extraction**: Leverages the official OpenAI SDK and JSON mode constraints to return guaranteed, strongly-typed JSON outputs containing document summaries and distinct entity lists.
 - **Centralized Logging**: Well-structured `stdout` logging across the application to quickly identify validation failures, parse issues, and runtime LLM errors.

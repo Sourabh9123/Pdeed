@@ -41,6 +41,48 @@ async def extract_text_from_file(file: UploadFile) -> str:
             logger.error(f"Failed to read PDF: {e}")
             raise ValueError("Failed to parse the PDF file.")
             
+    elif filename.endswith(".docx"):
+        logger.info(f"Extracting text from DOCX file: {filename}")
+        try:
+            import docx
+            doc_file = io.BytesIO(content)
+            doc = docx.Document(doc_file)
+            extracted_text = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+            return extracted_text.strip()
+        except ImportError:
+            logger.error("python-docx is not installed.")
+            raise RuntimeError("System configuration error for DOCX processing.")
+        except Exception as e:
+            logger.error(f"Failed to read DOCX: {e}")
+            raise ValueError("Failed to parse the DOCX file.")
+            
+    elif filename.endswith(".doc"):
+        logger.info(f"Extracting text from DOC file using antiword: {filename}")
+        try:
+            import subprocess
+            import tempfile
+            import os
+            
+            # Antiword requires a real file path
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".doc") as temp_file:
+                temp_file.write(content)
+                temp_file_path = temp_file.name
+                
+            result = subprocess.run(['antiword', temp_file_path], capture_output=True, text=True)
+            os.remove(temp_file_path)
+            
+            if result.returncode != 0:
+                logger.error(f"Antiword failed: {result.stderr}")
+                raise ValueError("Failed to parse the DOC file (antiword error).")
+                
+            return result.stdout.strip()
+        except FileNotFoundError:
+            logger.error("antiword binary is not installed on the system.")
+            raise RuntimeError("System configuration error for DOC processing.")
+        except Exception as e:
+            logger.error(f"Failed to read DOC: {e}")
+            raise ValueError("Failed to parse the DOC file.")
+            
     elif filename.endswith((".png", ".jpg", ".jpeg")):
         logger.warning(f"Image uploaded without OCR integration: {filename}")
         # COMMENT: This is where we would call OCR like Tesseract or xpad/xpdf OCR utilities.
