@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from app.api.routes import document
+from app.core.logging import setup_logging
+
+# Initialize centralized logging
+setup_logging()
 
 app = FastAPI(title="Document Intelligence Platform API", version="1.0.0")
 

@@ -1,9 +1,9 @@
 from openai import AsyncOpenAI, OpenAIError
 import json
-import logging
 from app.core.config import settings
+from app.core.logging import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
 
 async def analyze_document_text(text: str) -> dict:

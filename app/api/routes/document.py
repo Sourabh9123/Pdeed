@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
-import logging
 from app.models.document import DocumentRequest, DocumentAnalysisResponse
 from app.services.llm_service import analyze_document_text
+from app.core.logging import get_logger
 
 router = APIRouter()
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 @router.post("/analyze", response_model=DocumentAnalysisResponse)
 async def analyze_document(request: DocumentRequest):
