@@ -37,9 +37,10 @@ A focused, real-world backend service designed for document intelligence, built 
    ```bash
    cp .env.example .env
    ```
-   Edit the `.env` file to include your actual API key:
+   Edit the `.env` file to include your actual API key and optionally the model:
    ```env
    OPENAI_API_KEY=sk-your-openai-api-key-here
+   OPENAI_MODEL=gpt-3.5-turbo-1106
    ```
 
 3. Build and run the services using Docker Compose:
@@ -71,7 +72,14 @@ curl -X 'POST' \
 
 ```json
 {
+  "document_type": "Article",
+  "language": "English",
   "summary": "Google is a company headquartered in Mountain View, California, founded by Larry Page and Sergey Brin.",
+  "key_themes": [
+    "Corporate History",
+    "Technology Companies",
+    "Founders"
+  ],
   "entities": [
     {
       "text": "Google",
@@ -93,7 +101,9 @@ curl -X 'POST' \
       "text": "Sergey Brin",
       "label": "Person"
     }
-  ]
+  ],
+  "sentiment": "Neutral",
+  "action_items": []
 }
 ```
 

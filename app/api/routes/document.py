@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from app.models.document import DocumentAnalysisResponse
-from app.services.llm_service import analyze_document_text
+from app.services.llm_service import llm_service
 from app.services.document_parser import extract_text_from_file
 from app.core.logging import get_logger
 
@@ -14,7 +14,7 @@ async def analyze_document(file: UploadFile = File(...)):
         extracted_text = await extract_text_from_file(file)
         
         # Pass the extracted text to the LLM service
-        analysis_result = await analyze_document_text(extracted_text)
+        analysis_result = await llm_service.analyze_document_text(extracted_text)
         return DocumentAnalysisResponse(**analysis_result)
     except ValueError as e:
         logger.warning(f"Validation Error: {str(e)}")
