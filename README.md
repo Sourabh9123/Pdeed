@@ -43,7 +43,8 @@ A focused, real-world backend service designed for document intelligence, built 
    ```env
    OPENAI_API_KEY=sk-your-openai-api-key-here
    OPENAI_MODEL=gpt-3.5-turbo-1106
-   MONGODB_URL=mongodb://localhost:27018
+   MONGODB_URL=mongodb://mongo:27017
+   LOCAL_MONGODB_URL=mongodb://localhost:27018
    MONGODB_DATABASE=printdeed
    MONGODB_PORT=27018
    ```

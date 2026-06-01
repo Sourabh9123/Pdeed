@@ -2,6 +2,11 @@
 
 COMPOSE ?= docker compose
 
+ifneq (,$(wildcard .env))
+include .env
+export
+endif
+
 build:
 	$(COMPOSE) build
 
@@ -21,7 +26,7 @@ ps:
 
 local:
 	$(COMPOSE) up -d mongo
-	MONGODB_URL=$${MONGODB_URL:-mongodb://localhost:$${MONGODB_PORT:-27018}} uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+	MONGODB_URL=$${LOCAL_MONGODB_URL:-mongodb://localhost:$${MONGODB_PORT:-27018}} uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 mongo-shell:
 	$(COMPOSE) exec mongo mongosh printdeed

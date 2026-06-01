@@ -6,7 +6,6 @@ services:
     volumes:
       - .:/app
     environment:
-      - MONGODB_URL=mongodb://mongo:27017
       - MONGODB_DATABASE=${MONGODB_DATABASE:-printdeed}
     env_file:
       - .env
