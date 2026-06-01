@@ -6,6 +6,7 @@ class Entity(BaseModel):
     label: str
 
 class DocumentAnalysisResponse(BaseModel):
+    analysis_id: Optional[str] = None
     document_type: str
     language: str
     summary: str
